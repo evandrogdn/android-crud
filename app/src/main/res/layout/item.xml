@@ -6,11 +6,12 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent">
 
-  <ImageView android:id="@+id/foto"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:padding="5dp"
-          android:background="@color/borda_imagem"/>
+  <ImageView
+      android:id="@+id/foto"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@color/borda_imagem"
+      android:padding="5dp" />
 
   <TextView android:id="@+id/nome"
           android:layout_width="match_parent"

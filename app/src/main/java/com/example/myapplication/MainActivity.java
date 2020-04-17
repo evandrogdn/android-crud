@@ -7,10 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.myapplication.dao.AlunoDAO;
 import com.example.myapplication.model.Aluno;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        listaAlunos = findViewById(R.id.lista_alunos);
+
+        onLoadListAlunos();
     }
 
     @Override
@@ -42,5 +49,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onLoadListAlunos(){
+        AlunoDAO dao = new AlunoDAO(this);
+        List<Aluno> alunos = dao.onListAlunos();
+
+        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunos);
+
+        listaAlunos.setAdapter(adapter);
     }
 }
