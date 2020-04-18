@@ -1,6 +1,8 @@
 package com.example.myapplication.model;
 
-public class Aluno {
+import java.io.Serializable;
+
+public class Aluno implements Serializable {
     private Long id;
     private String nome;
     private String telefone;
@@ -8,6 +10,26 @@ public class Aluno {
     private String site;
     private String foto;
     private Double nota;
+
+    public static class AlunoSerializer implements Serializable {
+        private Long id;
+        private String nome;
+        private String telefone;
+        private String endereco;
+        private String site;
+        private String foto;
+        private Double nota;
+
+        public AlunoSerializer(Aluno aluno) {
+            this.id = aluno.getId();
+            this.nome = aluno.getNome();
+            this.telefone = aluno.getTelefone();
+            this.endereco = aluno.getEndereco();
+            this.site = aluno.getSite();
+            this.foto = aluno.getFoto();
+            this.nota = aluno.getNota();
+        }
+    }
 
     public Long getId() {
         return id;

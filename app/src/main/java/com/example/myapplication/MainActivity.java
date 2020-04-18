@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     public void popUpMenuActions(MenuItem item) {
         switch (item.getTitle().toString()) {
             case "Editar":
-                // @todo - show form and set field values
+                alunoUpdate();
                 break;
             case "Remover":
                 alunoDelete();
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 //@todo - call send call method
                 break;
             case "Mensagem":
-                //@todo - call send message method
+                alunoSendMessage();
                 break;
             case "Ver no mapa":
                 //@todo - call method show on map
@@ -124,6 +125,20 @@ public class MainActivity extends AppCompatActivity {
         AlunoDAO alunoDAO = new AlunoDAO(MainActivity.this);
         alunoDAO.onDeleteAluno(alunoSelecionado);
         onLoadListAlunos();
+    }
+
+    private void alunoUpdate() {
+        Intent intent = new Intent(MainActivity.this, FormularioActivity.class);
+        intent.putExtra("aluno_selecionado", alunoSelecionado);
+        startActivity(intent);
+        onLoadListAlunos();
+    }
+
+    private void alunoSendMessage() {
+        Intent sms = new Intent(Intent.ACTION_VIEW);
+        sms.setType("vnd.android-dir/mms-sms");
+        sms.setData(Uri.parse("smsto:" + Uri.encode(alunoSelecionado.getTelefone())));
+        sms.putExtra("sms_body", "Mensagem");
     }
 
 }
