@@ -36,14 +36,7 @@ public class AlunoAdapter extends ArrayAdapter<Aluno> {
         ImageView foto = (ImageView) convertView.findViewById(R.id.foto);
         TextView nome = (TextView) convertView.findViewById(R.id.nome);
 
-        // tratamento para carregamento da imagem
-        File imagem = new File(aluno.getFoto());
-
-        if (imagem.exists()) {
-            Bitmap image = BitmapFactory.decodeFile(imagem.getAbsolutePath());
-            foto.setImageBitmap(image);
-        }
-
+        foto.setImageResource(R.drawable.ic_no_image);
         nome.setText(aluno.getNome());
 
         return convertView;
