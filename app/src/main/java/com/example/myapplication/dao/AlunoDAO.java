@@ -57,8 +57,8 @@ public class AlunoDAO extends SQLiteOpenHelper {
         getWritableDatabase().insert(TABELA, null, values);
     }
 
-    public List<Aluno> onListAlunos() {
-        List<Aluno> alunos = new ArrayList<>();
+    public ArrayList<Aluno> onListAlunos() {
+        ArrayList<Aluno> alunos = new ArrayList<>();
 
         Cursor c = getWritableDatabase().query(
                 TABELA,
