@@ -20,21 +20,21 @@ public class FormHelper {
     private Aluno aluno;
 
     public FormHelper(FormularioActivity form) {
-        nome = form.findViewById(R.id.nome);
-        telefone = form.findViewById(R.id.telefone);
-        endereco = form.findViewById(R.id.endereco);
-        site = form.findViewById(R.id.site);
-        nota = form.findViewById(R.id.nota);
         foto = form.findViewById(R.id.foto);
+        nome = form.findViewById(R.id.nome);
+        site = form.findViewById(R.id.site);
+        endereco = form.findViewById(R.id.endereco);
+        telefone = form.findViewById(R.id.telefone);
+        nota = form.findViewById(R.id.nota);
 
         aluno = new Aluno();
     }
 
     public Aluno getAlunoFromForm() {
         aluno.setNome(nome.getEditableText().toString());
-        aluno.setTelefone(telefone.getEditableText().toString());
-        aluno.setEndereco(endereco.getEditableText().toString());
         aluno.setSite(site.getEditableText().toString());
+        aluno.setEndereco(endereco.getEditableText().toString());
+        aluno.setTelefone(telefone.getEditableText().toString());
         aluno.setNota((double) nota.getProgress());
 
         return aluno;
@@ -44,9 +44,9 @@ public class FormHelper {
         this.aluno = aluno;
 
         nome.setText(aluno.getNome());
+        site.setText(aluno.getSite());
         endereco.setText(aluno.getEndereco());
         telefone.setText(aluno.getTelefone());
-        site.setText(aluno.getSite());
         nota.setProgress((int) Math.round(aluno.getNota()));
 
         if (aluno.getFoto() != null) {

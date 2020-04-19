@@ -14,20 +14,20 @@ public class Aluno implements Serializable {
     public static class AlunoSerializer implements Serializable {
         private Long id;
         private String nome;
-        private String telefone;
         private String endereco;
+        private String telefone;
         private String site;
         private String foto;
         private Double nota;
 
         public AlunoSerializer(Aluno aluno) {
-            this.id = aluno.getId();
-            this.nome = aluno.getNome();
-            this.telefone = aluno.getTelefone();
-            this.endereco = aluno.getEndereco();
-            this.site = aluno.getSite();
-            this.foto = aluno.getFoto();
-            this.nota = aluno.getNota();
+            id = aluno.getId();
+            nome = aluno.getNome();
+            endereco = aluno.getEndereco();
+            telefone = aluno.getTelefone();
+            site = aluno.getSite();
+            foto = aluno.getFoto();
+            nota = aluno.getNota();
         }
     }
 

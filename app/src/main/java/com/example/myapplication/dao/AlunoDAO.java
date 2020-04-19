@@ -75,8 +75,8 @@ public class AlunoDAO extends SQLiteOpenHelper {
             Aluno aluno = new Aluno();
             aluno.setId(c.getLong(0));
             aluno.setNome(c.getString(1));
-            aluno.setTelefone(c.getString(2));
-            aluno.setEndereco(c.getString(3));
+            aluno.setEndereco(c.getString(2));
+            aluno.setTelefone(c.getString(3));
             aluno.setSite(c.getString(4));
             aluno.setFoto(c.getString(5));
             aluno.setNota(c.getDouble(6));

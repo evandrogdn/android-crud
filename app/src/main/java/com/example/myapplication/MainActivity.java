@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listaAlunos = findViewById(R.id.lista_alunos);
-
         onLoadListAlunos();
         onLoadAddListeners();
     }
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_principal, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -52,11 +50,18 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_novo:
-                Intent intent = new Intent(MainActivity.this, FormularioActivity.class);
+                Intent intent = new Intent(
+                        MainActivity.this,
+                        FormularioActivity.class
+                );
                 startActivity(intent);
                 return false;
             default:
-                Toast.makeText(MainActivity.this, "Not Implemented Yet!", Toast.LENGTH_LONG).show();
+                Toast.makeText(
+                        MainActivity.this,
+                        "NOT IMPLEMENTED YET",
+                        Toast.LENGTH_LONG
+                ).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -66,9 +71,7 @@ public class MainActivity extends AppCompatActivity {
         AlunoDAO dao = new AlunoDAO(this);
         ArrayList<Aluno> alunos = dao.onListAlunos();
         dao.close();
-
         AlunoAdapter adapter = new AlunoAdapter(this, alunos);
-
         listaAlunos.setAdapter(adapter);
     }
 
@@ -87,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 menu.getMenu().add("Ligar");
                 menu.getMenu().add("Mensagem");
                 menu.getMenu().add("Ver no mapa");
+                menu.getMenu().add("Mostrar Site");
                 menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         popUpMenuActions(item);
@@ -96,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
                 menu.show();
             }
         });
-
     }
 
     public void popUpMenuActions(MenuItem item) {
@@ -108,22 +111,34 @@ public class MainActivity extends AppCompatActivity {
                 alunoDelete();
                 break;
             case "Ligar":
-                //@todo - call send call method
+                alunoCall();
                 break;
             case "Mensagem":
                 alunoSendMessage();
                 break;
             case "Ver no mapa":
-                //@todo - call method show on map
+                alunoMap();
+                break;
+            case "Mostrar Site":
+                alunoSite();
                 break;
             default:
-                Toast.makeText(MainActivity.this, "NOT IMPLEMENTED YET", Toast.LENGTH_LONG).show();
+                Toast.makeText(
+                        MainActivity.this,
+                        "NOT IMPLEMENTED YET",
+                        Toast.LENGTH_LONG
+                ).show();
         }
     }
 
     private void alunoDelete() {
         AlunoDAO alunoDAO = new AlunoDAO(MainActivity.this);
         alunoDAO.onDeleteAluno(alunoSelecionado);
+        Toast.makeText(
+                MainActivity.this,
+                "Aluno removido com sucesso",
+                Toast.LENGTH_LONG
+        ).show();
         onLoadListAlunos();
     }
 
@@ -135,10 +150,65 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void alunoSendMessage() {
-        Intent sms = new Intent(Intent.ACTION_VIEW);
-        sms.setType("vnd.android-dir/mms-sms");
-        sms.setData(Uri.parse("smsto:" + Uri.encode(alunoSelecionado.getTelefone())));
-        sms.putExtra("sms_body", "Mensagem");
+        if (alunoSelecionado.getTelefone().isEmpty()) {
+            Toast.makeText(
+                    MainActivity.this,
+                    "Aluno não possui telefone cadastrado",
+                    Toast.LENGTH_LONG
+            ).show();
+        } else {
+            Intent sms = new Intent(Intent.ACTION_VIEW);
+            sms.setType("vnd.android-dir/mms-sms");
+            sms.setData(Uri.parse("smsto:" + Uri.encode(alunoSelecionado.getTelefone())));
+            sms.putExtra("sms_body", "Mensagem");
+            startActivity(sms);
+        }
     }
 
+    private void alunoMap() {
+        if (alunoSelecionado.getEndereco().isEmpty()) {
+            Toast.makeText(
+                    MainActivity.this,
+                    "Aluno não possui endereço cadastrado",
+                    Toast.LENGTH_LONG
+            ).show();
+        } else {
+            Uri googleMapUrl = Uri.parse("geo:0,0?q=" + alunoSelecionado.getEndereco());
+            Intent gmapUrl = new Intent(Intent.ACTION_VIEW, googleMapUrl);
+            gmapUrl.setPackage("com.google.android.apps.maps");
+            startActivity(gmapUrl);
+        }
+    }
+
+    private void alunoCall() {
+        if (alunoSelecionado.getTelefone().isEmpty()) {
+            Toast.makeText(
+                    MainActivity.this,
+                    "Aluno não possui telefone cadastrado",
+                    Toast.LENGTH_LONG
+            ).show();
+        } else {
+            Intent intent = new Intent(
+                    Intent.ACTION_DIAL,
+                    Uri.fromParts("tel", alunoSelecionado.getTelefone(), null)
+            );
+            startActivity(intent);
+        }
+    }
+
+    private void alunoSite() {
+        if (alunoSelecionado.getSite().isEmpty()) {
+            Toast.makeText(
+                    MainActivity.this,
+                    "Aluno não possui telefone cadastrado",
+                    Toast.LENGTH_LONG
+            ).show();
+        } else {
+            Intent navegador = new Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://" + alunoSelecionado.getSite())
+            );
+            startActivity(navegador);
+        }
+    }
 }

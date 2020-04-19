@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -42,7 +41,7 @@ public class FormularioActivity extends AppCompatActivity {
     private void addListeners() {
         btnGravar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (alunoToUpdate.getId() == null) {
+                if (alunoToUpdate == null) {
                     saveAluno();
                 } else {
                     updateAluno();
